@@ -15,6 +15,7 @@ void SY7T609_UART::setup()
     this->read();
     delay(0);
   }
+  uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET); 这样对吗
 }
 
 void SY7T609_UART::loop() 

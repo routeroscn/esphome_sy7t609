@@ -9,12 +9,11 @@ namespace sy7t609 {
 #define PSCALE        (0x027703)
 #define ACCUM         (0x001A2C)
 #define IRMS_TARGET   (0x0003E8)
-#define VRMS_TARGET   (0x035B60)
+#define VRMS_TARGET   (0x03807C)
 #define POWER_TARGET  (0x01D4C0)
 #define CONTROL       (0x001817)
 #define BUCKETH       (0x000247)
-//#define BUCKETL       (0x7780A5)   /*原厂默认的数据*/
-#define BUCKETL       (0xD5AEE6)   /*其他正常插排的数据*/
+#define BUCKETL       (0x7780A5)   /*原厂默认的数据*/
 #define IGAIN         (0x43DF0D)    /*使用万用表校准的的数据*/
 #define VGAIN         (0x210A40)
 
