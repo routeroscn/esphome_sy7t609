@@ -13,8 +13,8 @@ void SY7T609_UART::setup() {
   // Delay before sending reset command (adjust as needed)
   delay(100);
   // Send reset command
-  // uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET);
-  write_state_(PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET);
+  uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET);
+  // write_state_(PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET);
 }
 
 void SY7T609_UART::loop() 
