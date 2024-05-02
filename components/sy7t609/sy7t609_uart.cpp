@@ -10,11 +10,6 @@ static const char *const TAG = "sy7t609";
 void SY7T609_UART::setup() {
   // Clear UART buffer
   this->flush(); // 使用 flush() 方法清空 UART 缓冲区
-  // Delay before sending reset command (adjust as needed)
-  delay(100);
-  // Send reset command
-  uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET);
-  // write_state_(PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET);
 }
 
 void SY7T609_UART::loop() 
@@ -763,6 +758,11 @@ void SY7T609_UART::reset_energy_()
   write_state_(PROCESS_STATE_WRITE_CMD_REG_CLEAR_ENGERGY_COUNTERS);
   delay(20);
   ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET energy, end.");
+}
+
+void SY7T609_UART::reset_soft_() 
+{
+  write_state_(PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET);
 }
 
 void SY7T609_UART::reset_calibration_()

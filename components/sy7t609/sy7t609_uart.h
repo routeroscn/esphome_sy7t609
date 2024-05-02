@@ -45,7 +45,7 @@ class SY7T609_UART : public PollingComponent, public uart::UARTDevice
 
  protected:
   void reset_energy_();
-
+  void reset_soft_();
   void reset_calibration_();
 
   void print_debug_msg_();
