@@ -754,16 +754,12 @@ bool SY7T609_UART::isReadCalibrationRegisterProcess(process_state state)
 
 void SY7T609_UART::reset_energy_() 
 {
-  ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET energy, begin...");
+  // ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET energy, begin...");
   write_state_(PROCESS_STATE_WRITE_CMD_REG_CLEAR_ENGERGY_COUNTERS);
-  delay(20);
-  ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET energy, end.");
+  // delay(20);
+  // ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET energy, end.");
 }
 
-void SY7T609_UART::reset_soft_() 
-{
-  write_state_(PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET);
-}
 
 void SY7T609_UART::reset_calibration_()
 {
@@ -777,7 +773,6 @@ void SY7T609_UART::reset_calibration_()
   write_state_(PROCESS_STATE_WRITE_CMD_REG_SAVE_TO_FLASH);
   delay(20);
   ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET calibration, end.");
-
 }
 
 void SY7T609_UART::print_debug_msg_()
