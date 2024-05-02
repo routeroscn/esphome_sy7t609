@@ -7,15 +7,13 @@ namespace sy7t609 {
 
 static const char *const TAG = "sy7t609";
 
-void SY7T609_UART::setup()
-{
+void SY7T609_UART::setup() {
   // Clear UART buffer
-  while (this->available())
-  {
-    this->read();
-    delay(0);
-  }
-  uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET); 这样对吗
+  this->flush(); // 使用 flush() 方法清空 UART 缓冲区
+  // Delay before sending reset command (adjust as needed)
+  delay(100);
+  // Send reset command
+  uartSendWriteCmd(ADDR_COMMAND,CMD_REG_SOFT_RESET);
 }
 
 void SY7T609_UART::loop() 
