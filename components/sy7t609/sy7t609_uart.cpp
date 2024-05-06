@@ -703,7 +703,7 @@ void SY7T609_UART::handleActionCallback()
   while(this->available())
   {
     this->read();
-    delay(0);
+    yield();
   }
 
   m_vecActionCallback.clear();
