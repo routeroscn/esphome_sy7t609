@@ -17,12 +17,12 @@ namespace sy7t609 {
 #define IGAIN         (0x43DF0D)    /*使用万用表校准的的数据*/
 #define VGAIN         (0x210A40)
 
-#define COMMAND_REGISTER_CALIBRATION_MASK (0xFF0000)
-#define CONTROL_REGISTER_MASK             (0x001815)
+// #define COMMAND_REGISTER_CALIBRATION_MASK (0xFF0000)
+// #define CONTROL_REGISTER_MASK             (0x001815)
 
 //[23-20]   [19-16]  [15-12]  [11-8]  [7-4]   [3-0]
 //0000      0100     1000     1000     0001     0111
-#define CONTROL_REGISTER_BIT_SET       (0x048817)  
+// #define CONTROL_REGISTER_BIT_SET       (0x048817)  
 #define SSI_HEADER (0xAA)
 #define SSI_DEFAULT_FRAME_SIZE   (3)
 #define SSI_MAX_PAYLOAD_SIZE     (7)
@@ -32,16 +32,16 @@ namespace sy7t609 {
 #define SSI_UART_READ_SEND_PKG_SIZE ((SSI_DEFAULT_FRAME_SIZE + SSI_READ_PAYLOAD_SIZE))
 #define SSI_UART_WRITE_SEND_PKG_SIZE ((SSI_DEFAULT_FRAME_SIZE + SSI_WRITE_PAYLOAD_SIZE))
 #define SSI_UART_READ_RECV_PKG_SIZE ((SSI_DEFAULT_FRAME_SIZE + SSI_REPLY_PAYLOAD_SIZE))
-#define SSI_UART_WRITE_RECV_PKG_SIZE (1)
+// #define SSI_UART_WRITE_RECV_PKG_SIZE (1)
 
-#define CMD_CLEAR_ADDRESS            (0xA0)
+// #define CMD_CLEAR_ADDRESS            (0xA0)
 #define CMD_SELECT_REGISTER_ADDRESS  (0xA3)
 #define CMD_READ_REGITSTER_3BYTES    (0xE3)
 #define CMD_WRITE_RETISTER_3BYTES    (0xD3)
 
 enum sy7t609_register_map {
     ADDR_COMMAND       = 0x0000,
-    ADDR_FW_VER        = 0x0003,
+    // ADDR_FW_VER        = 0x0003,
     ADDR_CONTROL       = 0x0006,
     //Metering Address
     ADDR_CTEMP         = 0x0027,
@@ -51,17 +51,17 @@ enum sy7t609_register_map {
     ADDR_IRMS          = 0x0036,
     ADDR_POWER         = 0x0039,
     ADDR_VAR           = 0x003C,
-    ADDR_FREQUENCY     = 0x0042,
-    ADDR_AVG_POWER     = 0x0045,
+    // ADDR_FREQUENCY     = 0x0042,
+    // ADDR_AVG_POWER     = 0x0045,
     ADDR_PF            = 0x0048,
     ADDR_EPPCNT        = 0x0069, //Positive Active Energy Count
-    ADDR_EPMCNT        = 0x006C, //Negative Active Energy Count
-    ADDR_IPEAK         = 0x008A,
-    ADDR_VPEAK         = 0x0093,
+    // ADDR_EPMCNT        = 0x006C, //Negative Active Energy Count
+    // ADDR_IPEAK         = 0x008A,
+    // ADDR_VPEAK         = 0x0093,
     //I/O Control Address
-    ADDR_DIO_DIR       = 0x0099,
-    ADDR_DIO_SET       = 0x009F,
-    ADDR_DIO_RST       = 0x00A2,
+    // ADDR_DIO_DIR       = 0x0099,
+    // ADDR_DIO_SET       = 0x009F,
+    // ADDR_DIO_RST       = 0x00A2,
     //Calibration Address
     ADDR_BUCKETL       = 0x00C0,
     ADDR_BUCKETH       = 0x00C3,
@@ -76,7 +76,7 @@ enum sy7t609_register_map {
     ADDR_IRMS_TARGET   = 0x0117,
     ADDR_VRMS_TARGET   = 0x011A,
     ADDR_POWER_TARGET  = 0x011D,
-    ADDR_BAUD_RATE     = 0x0120,
+    // ADDR_BAUD_RATE     = 0x0120,
     ADDR_ERROR         = 0x0FFF
 };
 
@@ -85,11 +85,11 @@ enum command_register_code {
     CMD_REG_CLEAR_ENGERGY_COUNTERS = 0xEC0000, //Clear All Energy Counters
     CMD_REG_SOFT_RESET             = 0xBD0000, //Invoke Soft-Reset
     CMD_REG_SAVE_TO_FLASH          = 0xACC200,
-    CMD_REG_CLEAR_FLASH_STORAGE_0  = 0xACC000,
-    CMD_REG_CLEAR_FLASH_STORAGE_1  = 0XACC100,
+    // CMD_REG_CLEAR_FLASH_STORAGE_0  = 0xACC000,
+    // CMD_REG_CLEAR_FLASH_STORAGE_1  = 0XACC100,
     CMD_REG_CALIBRATION_VOLTAGE    = 0xCA0020,
-    CMD_REG_CALIBRATION_CURRENT    = 0xCA0010,
-    CMD_REG_CALIBRATION_ALL        = 0xCA0030
+    CMD_REG_CALIBRATION_CURRENT    = 0xCA0010
+    // CMD_REG_CALIBRATION_ALL        = 0xCA0030
 };
 
 enum sy7t609_reply_code {
@@ -138,7 +138,7 @@ typedef enum process_state_
     PROCESS_STATE_READ_ADDR_IRMS_TARGET,
     PROCESS_STATE_READ_ADDR_VRMS_TARGET,
     PROCESS_STATE_READ_ADDR_POWER_TARGET,
-    PROCESS_STATE_READ_ADDR_BAUD,
+    // PROCESS_STATE_READ_ADDR_BAUD,
     PROCESS_STATE_READ_BUCKETL,
     PROCESS_STATE_READ_BUCKETH,
     PROCESS_STATE_READ_CONTROL_REGISTER,
@@ -158,7 +158,7 @@ typedef enum process_state_
     PROCESS_STATE_WRITE_CONTROL_REGISTER,
     PROCESS_STATE_WRITE_CMD_REG_SAVE_TO_FLASH,
     PROCESS_STATE_WRITE_CMD_REG_CLEAR_ENGERGY_COUNTERS,
-    PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER,
+    // PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER,
     PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET,
     PROCESS_STATE_WRITE_REGISTER_MAX,
     PROCESS_STATE_READ_CALIBRATION_ALL_REGISTER

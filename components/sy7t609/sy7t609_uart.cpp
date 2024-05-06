@@ -21,7 +21,7 @@ void SY7T609_UART::loop()
     while (this->available())
     {
       this->read();
-      delay(0);
+      yield();
     }
     this->last_read_ = now;
 
@@ -226,9 +226,9 @@ uint16_t SY7T609_UART::getRegisterAddrByState(process_state state)
         case PROCESS_STATE_READ_ADDR_POWER_TARGET:
             addr = ADDR_POWER_TARGET;
             break;
-        case PROCESS_STATE_READ_ADDR_BAUD:
-            addr = ADDR_BAUD_RATE;
-            break;
+        // case PROCESS_STATE_READ_ADDR_BAUD:
+            // addr = ADDR_BAUD_RATE;
+            // break;
         case PROCESS_STATE_READ_BUCKETL:
             addr = ADDR_BUCKETL;
             break; 
@@ -283,9 +283,9 @@ uint16_t SY7T609_UART::getRegisterAddrByState(process_state state)
         case PROCESS_STATE_WRITE_CMD_REG_SAVE_TO_FLASH:
             addr = ADDR_COMMAND;
             break; 
-        case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
-            addr = ADDR_COMMAND;
-            break;
+        // case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
+            // addr = ADDR_COMMAND;
+            // break;
         case PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET:
             addr = ADDR_COMMAND;
             break; 
@@ -342,9 +342,9 @@ uint32_t SY7T609_UART::getRegisterWriteValueByState(process_state state)
     case PROCESS_STATE_WRITE_CMD_REG_SAVE_TO_FLASH:
         data = CMD_REG_SAVE_TO_FLASH;
         break;
-    case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
-        data = CMD_REG_CALIBRATION_ALL;
-        break;
+    // case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
+        // data = CMD_REG_CALIBRATION_ALL;
+        // break;
     case PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET:
         data = CMD_REG_SOFT_RESET;
         break; 
@@ -411,9 +411,9 @@ std::string SY7T609_UART::getProcessNameByState(process_state state)
     case PROCESS_STATE_READ_ADDR_POWER_TARGET:
         value = "READ_POWER_TARGET";
         break;
-    case PROCESS_STATE_READ_ADDR_BAUD:
-        value = "READ_BAUD_RATE";
-        break;
+    // case PROCESS_STATE_READ_ADDR_BAUD:
+        // value = "READ_BAUD_RATE";
+        // break;
     case PROCESS_STATE_READ_BUCKETL:
         value = "READ_BUCKETL";
         break; 
@@ -468,9 +468,9 @@ std::string SY7T609_UART::getProcessNameByState(process_state state)
     case PROCESS_STATE_WRITE_CMD_REG_SAVE_TO_FLASH:
         value = "WRITE_COMMAND_SAVE_TO_FLASH";
         break; 
-    case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
-        value = "WRITE_COMMAND_CALIBRATION";
-        break;
+    // case PROCESS_STATE_WRITE_CALIBRATION_ALL_REGISTER:
+        // value = "WRITE_COMMAND_CALIBRATION";
+        // break;
     case PROCESS_STATE_WRITE_CMD_REG_SOFT_RESET:
         value = "WRITE_COMMAND_SOFT_RESET";
         break; 
