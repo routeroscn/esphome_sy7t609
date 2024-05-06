@@ -11,7 +11,7 @@ namespace sy7t609 {
 
 template<typename... Ts> class ResetEnergyAction;
 template<typename... Ts> class ResetCalibrationAction;
-template<typename... Ts> class PrintDebugMsgAction;
+// template<typename... Ts> class PrintDebugMsgAction;
 class SY7T609_UART;
 typedef void (SY7T609_UART::*ActionCallbackFuncPtr)(void);
 
@@ -47,9 +47,9 @@ class SY7T609_UART : public PollingComponent, public uart::UARTDevice
   void reset_energy_();
   void reset_calibration_();
 
-  void print_debug_msg_();
+  // void print_debug_msg_();
   
-  void printRegisterValue();
+  // void printRegisterValue();
   
   void write_state_(process_state state);
 
@@ -105,7 +105,7 @@ protected:
   uint32_t last_read_{0};
   template<typename... Ts> friend class ResetEnergyAction;
   template<typename... Ts> friend class ResetCalibrationAction;
-  template<typename... Ts> friend class PrintDebugMsgAction;
+  // template<typename... Ts> friend class PrintDebugMsgAction;
   sensor::Sensor *power_factor_sensor_{nullptr};
   sensor::Sensor *voltage_sensor_{nullptr};
   sensor::Sensor *current_sensor_{nullptr};
@@ -149,19 +149,19 @@ template<typename... Ts> class ResetCalibrationAction : public Action<Ts...>
   SY7T609_UART *sy7t609_;
 };
 
-template<typename... Ts> class PrintDebugMsgAction : public Action<Ts...> 
-{
- public:
-  PrintDebugMsgAction(SY7T609_UART *sy7t609) : sy7t609_(sy7t609) {}
+// template<typename... Ts> class PrintDebugMsgAction : public Action<Ts...> 
+// {
+ // public:
+  // PrintDebugMsgAction(SY7T609_UART *sy7t609) : sy7t609_(sy7t609) {}
 
-  void play(Ts... x) override 
-  { 
-    this->sy7t609_->addActionCallBack(&SY7T609_UART::print_debug_msg_); 
-    //ESP_LOGI("PrintDebugMsgAction", "SY7T609_UART addActionCallBack,[print_debug_msg_]");
-  }
+  // void play(Ts... x) override 
+  // { 
+    // this->sy7t609_->addActionCallBack(&SY7T609_UART::print_debug_msg_); 
+    // ESP_LOGI("PrintDebugMsgAction", "SY7T609_UART addActionCallBack,[print_debug_msg_]");
+  // }
 
- protected:
-  SY7T609_UART *sy7t609_;
-};
+ // protected:
+  // SY7T609_UART *sy7t609_;
+// };
 }  // namespace sy7t609
 }  // namespace esphome

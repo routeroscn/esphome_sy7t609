@@ -775,55 +775,55 @@ void SY7T609_UART::reset_calibration_()
   ESP_LOGI(TAG, "SY7T609_UART Sy7t609 RESET calibration, end.");
 }
 
-void SY7T609_UART::print_debug_msg_()
-{
-  ESP_LOGI(TAG, "SY7T609_UART Sy7t609 PRINT debug message, begin...");
-  for(int state = PROCESS_STATE_READ_REGISTER_MIN + 1; state < PROCESS_STATE_READ_REGISTER_MAX; state++)
-  {
-    while (this->available())
-    {
-      this->read();
-    }
-    write_state_((process_state)state);
-    delay(20);
-    printRegisterValue();
-  }
-  ESP_LOGI(TAG, "SY7T609_UART Sy7t609 PRINT debug message, end.");
-}
+// void SY7T609_UART::print_debug_msg_()
+// {
+  // ESP_LOGI(TAG, "SY7T609_UART Sy7t609 PRINT debug message, begin...");
+  // for(int state = PROCESS_STATE_READ_REGISTER_MIN + 1; state < PROCESS_STATE_READ_REGISTER_MAX; state++)
+  // {
+    // while (this->available())
+    // {
+      // this->read();
+    // }
+    // write_state_((process_state)state);
+    // delay(20);
+    // printRegisterValue();
+  // }
+  // ESP_LOGI(TAG, "SY7T609_UART Sy7t609 PRINT debug message, end.");
+// }
 
-void SY7T609_UART::printRegisterValue()
-{
-  if (this->available() != SSI_UART_READ_RECV_PKG_SIZE)
-  {
-    ESP_LOGE(TAG, "Debug: process_state[%s],invalid SSI_UART_READ_RECV_PKG_SIZE! 0x%02X", \
-      getProcessNameByState(m_process_state).c_str(),\
-      this->available());
-    return;
-  }
-  else
-  {
-    auto resp = *this->read_array<SSI_UART_READ_RECV_PKG_SIZE>();
-    if (resp[0] != REPLY_ACK_WITH_DATA)
-    {
-      ESP_LOGE(TAG, "Debug: process_state[%s],invalid REPLY_ACK_WITH_DATA! 0x%02X", \
-        getProcessNameByState(m_process_state).c_str(), \
-        resp[0]);
-    }
-    uint8_t sum = checksum<SSI_UART_READ_RECV_PKG_SIZE>(resp);
-    if (sum != resp[resp.max_size() - 1])
-    {
-      ESP_LOGE(TAG, "Debug: process_state[%s],invalid checksum! 0x%02X != 0x%02X", \
-        getProcessNameByState(m_process_state).c_str(), \
-        sum, \
-        resp[resp.max_size() - 1]);
-    }
-    ESP_LOGW(TAG, "Debug: process_state[%s],Read register,addr:0x[%03x] value:[0x%02x 0x%02x 0x%02x]!", \
-      getProcessNameByState(m_process_state).c_str(), \
-      getRegisterAddrByState(m_process_state), \
-      resp[4], \
-      resp[3], \
-      resp[2]);
-  }
-}
+// void SY7T609_UART::printRegisterValue()
+// {
+  // if (this->available() != SSI_UART_READ_RECV_PKG_SIZE)
+  // {
+    // ESP_LOGE(TAG, "Debug: process_state[%s],invalid SSI_UART_READ_RECV_PKG_SIZE! 0x%02X", \
+      // getProcessNameByState(m_process_state).c_str(),\
+      // this->available());
+    // return;
+  // }
+  // else
+  // {
+    // auto resp = *this->read_array<SSI_UART_READ_RECV_PKG_SIZE>();
+    // if (resp[0] != REPLY_ACK_WITH_DATA)
+    // {
+      // ESP_LOGE(TAG, "Debug: process_state[%s],invalid REPLY_ACK_WITH_DATA! 0x%02X", \
+        // getProcessNameByState(m_process_state).c_str(), \
+        // resp[0]);
+    // }
+    // uint8_t sum = checksum<SSI_UART_READ_RECV_PKG_SIZE>(resp);
+    // if (sum != resp[resp.max_size() - 1])
+    // {
+      // ESP_LOGE(TAG, "Debug: process_state[%s],invalid checksum! 0x%02X != 0x%02X", \
+        // getProcessNameByState(m_process_state).c_str(), \
+        // sum, \
+        // resp[resp.max_size() - 1]);
+    // }
+    // ESP_LOGW(TAG, "Debug: process_state[%s],Read register,addr:0x[%03x] value:[0x%02x 0x%02x 0x%02x]!", \
+      // getProcessNameByState(m_process_state).c_str(), \
+      // getRegisterAddrByState(m_process_state), \
+      // resp[4], \
+      // resp[3], \
+      // resp[2]);
+  // }
+// }
 } // namespace sy7t906
 } // namespace esphome
