@@ -5,7 +5,7 @@
  #include "esphome/components/uart/uart.h"
  
  namespace esphome {
- namespace HLW8032 {
+ namespace hlw8032 {
  
  class HLW8032Component : public Component, public uart::UARTDevice {
   public:
@@ -40,5 +40,5 @@
    uint16_t cf_pulses_last_{0};
  };
  
- }  // namespace HLW8032
+ }  // namespace hlw8032
  }  // namespace esphome

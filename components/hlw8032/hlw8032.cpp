@@ -5,7 +5,7 @@
  #include <sstream>
  
  namespace esphome {
- namespace HLW8032 {
+ namespace hlw8032 {
  
  static const char *const TAG = "HLW8032";
  
@@ -257,5 +257,5 @@
    this->check_uart_settings(4800);
  }
  
- }  // namespace HLW8032
+ }  // namespace hlw8032
  }  // namespace esphome
