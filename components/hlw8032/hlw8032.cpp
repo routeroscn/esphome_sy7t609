@@ -10,7 +10,6 @@ namespace hlw8032 {
 static const char *const TAG = "HLW8032";
 
 void HLW8032Component::loop() {
- //首先，函数开始时获取当前的毫秒级时间戳 now
   const uint32_t now = millis();
   if (now - this->last_transmission_ >= 500) {
     // last transmission too long ago. Reset RX index.
