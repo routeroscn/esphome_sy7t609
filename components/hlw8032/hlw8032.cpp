@@ -13,41 +13,33 @@ void HLW8032Component::loop() {
  //首先，函数开始时获取当前的毫秒级时间戳 now
   const uint32_t now = millis();
   if (now - this->last_transmission_ >= 500) {
-    //接着，检查距离上一次传输是否已经超过了500毫秒。如果是，说明上一次传输已经太久了，所以将接收数据的索引 raw_data_index_ 重置为0。
+    // last transmission too long ago. Reset RX index.
     this->raw_data_index_ = 0;
   }
-//然后，检查是否有可用的数据。如果没有可用数据，直接返回
+
   if (this->available() == 0) {
     return;
   }
 
   this->last_transmission_ = now;
-  //进入一个 while 循环，该循环在数据可用的情况下持续执行。在循环内部：
-   // 读取一个字节的数据，并将其存储到接收数据缓冲区 raw_data_ 中的当前索引位置。
   while (this->available() != 0) {
-	   
     this->read_byte(&this->raw_data_[this->raw_data_index_]);
-	 //调用 check_byte_() 函数来检查当前接收的字节是否有效。如果字节无效，则重置接收数据的索引，并设置警告状态
     if (!this->check_byte_()) {
       this->raw_data_index_ = 0;
       this->status_set_warning();
       continue;
     }
-//如果接收数据的索引 raw_data_index_ 达到了23，说明一帧数据已经接收完成，可以进行解析，
+
     if (this->raw_data_index_ == 23) {
-      this->parse_data_();  //解析数据
-      this->status_clear_warning();   //清除警告状态
+      this->parse_data_();
+      this->status_clear_warning();
     }
-//最后，更新接收数据的索引 raw_data_index_，使其循环在接收缓冲区内部循环。
+
     this->raw_data_index_ = (this->raw_data_index_ + 1) % 24;
   }
 }
-
-
-
 float HLW8032Component::get_setup_priority() const { return setup_priority::DATA; }
 
-//检查校验数据
 bool HLW8032Component::check_byte_() {
   uint8_t index = this->raw_data_index_;
   uint8_t byte = this->raw_data_[index];
@@ -62,23 +54,23 @@ bool HLW8032Component::check_byte_() {
     }
     return true;
   }
+
   if (index == 23) {
     uint8_t checksum = 0;
     for (uint8_t i = 2; i < 23; i++) {
       checksum += this->raw_data_[i];
     }
+
     if (checksum != this->raw_data_[23]) {
       ESP_LOGW(TAG, "Invalid checksum from HLW8032: 0x%02X != 0x%02X", checksum, this->raw_data_[23]);
       return false;
     }
     return true;
   }
+
   return true;
 }
-
-//解析数据
 void HLW8032Component::parse_data_() {
-#这是一个预处理指令，用于在编译时根据日志级别进行条件编译。只有当日志级别为 VERY_VERBOSE 或更高时，才会编译其中的代码
 #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_VERY_VERBOSE
   {
     std::stringstream ss;
@@ -182,38 +174,37 @@ void HLW8032Component::parse_data_() {
     }
   }
 
-
- if (have_voltage && have_current) {
-   const float apparent_power = voltage * current;
-   if (this->apparent_power_sensor_ != nullptr) {
-     this->apparent_power_sensor_->publish_state(apparent_power);
-   }
-   if (this->power_factor_sensor_ != nullptr && (have_power || power_cycle_exceeds_range)) {
-     float pf = NAN;
-     if (apparent_power > 0) {
-       pf = power / apparent_power;
-       if (pf < 0 || pf > 1) {
-         ESP_LOGD(TAG, "Impossible power factor: %.4f not in interval [0, 1]", pf);
-         pf = NAN;
-       }
-     } else if (apparent_power == 0 && power == 0) {
-       // No load, report ideal power factor
-       pf = 1.0f;
-     } else if (current == 0 && calculated_current <= 0.05f) {
-       // Datasheet: minimum measured current is 50mA
-       ESP_LOGV(TAG, "Can't calculate power factor (current below minimum for CSE7766)");
-     } else {
-       ESP_LOGW(TAG, "Can't calculate power factor from P = %.4f W, S = %.4f VA", power, apparent_power);
-     }
-     this->power_factor_sensor_->publish_state(pf);
-   }
-   if (pf < 0 || pf > 1) {
-    power = power * pf;
-    if (this->power_sensor_ != nullptr) {
-      this->power_sensor_->publish_state(power);
+  if (have_voltage && have_current) {
+    const float apparent_power = voltage * current;
+    if (this->apparent_power_sensor_ != nullptr) {
+      this->apparent_power_sensor_->publish_state(apparent_power);
     }
-   }
- }
+    if (this->power_factor_sensor_ != nullptr && (have_power || power_cycle_exceeds_range)) {
+      float pf = NAN;
+      if (apparent_power > 0) {
+        pf = power / apparent_power;
+        if (pf < 0 || pf > 1) {
+          ESP_LOGD(TAG, "Impossible power factor: %.4f not in interval [0, 1]", pf);
+          pf = NAN;
+        }
+      } else if (apparent_power == 0 && power == 0) {
+        // No load, report ideal power factor
+        pf = 1.0f;
+      } else if (current == 0 && calculated_current <= 0.05f) {
+        // Datasheet: minimum measured current is 50mA
+        ESP_LOGV(TAG, "Can't calculate power factor (current below minimum for CSE7766)");
+      } else {
+        ESP_LOGW(TAG, "Can't calculate power factor from P = %.4f W, S = %.4f VA", power, apparent_power);
+      }
+      this->power_factor_sensor_->publish_state(pf);
+    }
+    if (pf < 0 || pf > 1) {
+     power = power * pf;
+     if (this->power_sensor_ != nullptr) {
+       this->power_sensor_->publish_state(power);
+     }
+    }
+  }
 
 #if ESPHOME_LOG_LEVEL >= ESPHOME_LOG_LEVEL_VERY_VERBOSE
   {
